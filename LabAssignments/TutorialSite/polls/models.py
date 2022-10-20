@@ -43,3 +43,6 @@ class Osoba(models.Model):
     imie = models.CharField(max_length=64, blank=False)
     nazwisko = models.CharField(max_length=64, blank=False)
     miesiac_urodzenia = models.CharField(max_length=2, choices=DATE_OPTIONS)
+
+    def __str__(self):
+        return self.imie + ' ' + self.nazwisko
