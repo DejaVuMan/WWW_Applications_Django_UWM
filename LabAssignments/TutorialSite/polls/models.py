@@ -40,6 +40,6 @@ class Osoba(models.Model):
         ('12', 'December'),
     )
 
-    imie = models.CharField(max_length=64, required=True)
-    nazwisko = models.CharField(max_length=64, required=True)
+    imie = models.CharField(max_length=64, blank=False)
+    nazwisko = models.CharField(max_length=64, blank=False)
     miesiac_urodzenia = models.CharField(max_length=2, choices=DATE_OPTIONS)
