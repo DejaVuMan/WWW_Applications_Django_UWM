@@ -22,3 +22,24 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+
+class Osoba(models.Model):
+
+    DATE_OPTIONS = (
+        ('1', 'January'),
+        ('2', 'February'),
+        ('3', 'March'),
+        ('4', 'April'),
+        ('5', 'May'),
+        ('6', 'June'),
+        ('7', 'July'),
+        ('8', 'August'),
+        ('9', 'September'),
+        ('10', 'October'),
+        ('11', 'November'),
+        ('12', 'December'),
+    )
+
+    imie = models.CharField(max_length=64, required=True)
+    nazwisko = models.CharField(max_length=64, required=True)
+    miesiac_urodzenia = models.CharField(max_length=2, choices=DATE_OPTIONS)
