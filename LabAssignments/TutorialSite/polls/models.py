@@ -1,7 +1,7 @@
-
 import datetime
 from django.db import models
 from django.utils import timezone
+
 
 ## Creating DB updates:
 ## python manage.py makemigrations CategoryModelName
@@ -27,7 +27,12 @@ class Choice(models.Model):
     def __str__(self):
         return self.choice_text
 
+
 class Osoba(models.Model):
+    class Meta:
+        ordering = ["nazwisko"]
+        verbose_name_plural = "Osoby"
+
     class Dates(models.IntegerChoices):
         JANUARY = 1
         FEBRUARY = 2
