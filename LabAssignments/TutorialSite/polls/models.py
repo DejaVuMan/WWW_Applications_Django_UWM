@@ -49,7 +49,7 @@ class Osoba(models.Model):
 
     imie = models.CharField(max_length=64, blank=False)
     nazwisko = models.CharField(max_length=64, blank=False)
-    miesiac_urodzenia = models.CharField(max_length=2, choices=Dates.choices, default='1')
+    miesiac_urodzenia = models.IntegerField(max_length=2, choices=Dates.choices, default=Dates.JANUARY)
     data_dodania = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
