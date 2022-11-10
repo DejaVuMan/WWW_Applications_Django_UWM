@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from .models import Question, Choice, Osoba, Druzyna
 
+
 class QuestionModelSerializer(serializers.Serializer):
     model = Question
     fields = ['id', 'question_text', 'pub_date']
     read_only_fields = ['id', 'pub_date']
+
 
 class DruzynaModelSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
@@ -20,7 +22,8 @@ class DruzynaModelSerializer(serializers.Serializer):
         instance.save()
         return instance
 
-class OsobaModelSerializer(serializers.Serializer)
+
+class OsobaModelSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     imie = serializers.CharField(max_length=64, blank=False)
     nazwisko = serializers.CharField(max_length=64, blank=False)
@@ -38,7 +41,8 @@ class OsobaModelSerializer(serializers.Serializer)
         instance.save()
         return instance
 
-def ChoiceModelSerializer(serializers.Serializer):
+
+class ChoiceModelSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all(), allow_null=True)
     choice_text = serializers.CharField(required=True)
