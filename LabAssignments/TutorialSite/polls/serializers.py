@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils import timezone
 from .models import Question, Choice, Osoba, Druzyna
 
 
@@ -29,6 +30,7 @@ class OsobaModelSerializer(serializers.Serializer):
     nazwisko = serializers.CharField(max_length=64, blank=False)
     miesiac_urodzenia = serializers.ChoiceField(choices=Osoba.Dates.choices, default=Osoba.Dates.JANUARY)
     druzyna = serializers.PrimaryKeyRelatedField(queryset=Druzyna.objects.all(), allow_null=True)
+    data_dodania = serializers.DateTimeField(auto_now_add=True)
 
     def create(self, validated_data):
         return Osoba.objects.create(**validated_data)
@@ -40,6 +42,16 @@ class OsobaModelSerializer(serializers.Serializer):
         instance.druzyna = validated_data.get('druzyna', instance.druzyna)
         instance.save()
         return instance
+
+    def validate_nazwa(self, value):
+        if not value.isalpha():
+            raise serializers.ValidationError("Name must be only letters")
+        return value
+
+    def validate_data_dodania(self, value):
+        if value > timezone.now():
+            raise serializers.ValidationError("Date added cannot be in the future")
+        return value
 
 
 class ChoiceModelSerializer(serializers.Serializer):
