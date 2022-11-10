@@ -43,7 +43,12 @@ class OsobaModelSerializer(serializers.Serializer):
         instance.save()
         return instance
 
-    def validate_nazwa(self, value):
+    def validate_imie(self, value):
+        if not value.isalpha():
+            raise serializers.ValidationError("Name must be only letters")
+        return value
+
+    def validate_nazwisko(self, value):
         if not value.isalpha():
             raise serializers.ValidationError("Name must be only letters")
         return value
