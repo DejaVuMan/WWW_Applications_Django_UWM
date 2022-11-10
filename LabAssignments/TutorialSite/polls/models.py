@@ -61,6 +61,7 @@ class Osoba(models.Model):
     def __str__(self):
         return self.imie + ' ' + self.nazwisko
 
+
 class Druzyna(models.Model):
     nazwa = models.TextField(max_length=64, blank=False)
     kraj = models.TextField(max_length=2, blank=False)
