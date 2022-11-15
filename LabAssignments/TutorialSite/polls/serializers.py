@@ -11,8 +11,8 @@ class QuestionModelSerializer(serializers.Serializer):
 
 class DruzynaModelSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    nazwa = serializers.CharField(max_length=64, blank=False)
-    kraj = serializers.CharField(max_length=2, blank=False)
+    nazwa = serializers.CharField(max_length=64)
+    kraj = serializers.CharField(max_length=2)
 
     def create(self, validated_data):
         return Druzyna.objects.create(**validated_data)
@@ -26,11 +26,11 @@ class DruzynaModelSerializer(serializers.Serializer):
 
 class OsobaModelSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    imie = serializers.CharField(max_length=64, blank=False)
-    nazwisko = serializers.CharField(max_length=64, blank=False)
+    imie = serializers.CharField(max_length=64)
+    nazwisko = serializers.CharField(max_length=64)
     miesiac_urodzenia = serializers.ChoiceField(choices=Osoba.Dates.choices, default=Osoba.Dates.JANUARY)
     druzyna = serializers.PrimaryKeyRelatedField(queryset=Druzyna.objects.all(), allow_null=True)
-    data_dodania = serializers.DateTimeField(auto_now_add=True)
+    data_dodania = serializers.DateTimeField()
 
     def create(self, validated_data):
         return Osoba.objects.create(**validated_data)
