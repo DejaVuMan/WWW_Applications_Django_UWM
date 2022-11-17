@@ -49,7 +49,7 @@ class Osoba(models.Model):
 
     imie = models.CharField(max_length=64, blank=False)
     nazwisko = models.CharField(max_length=64, blank=False)
-    miesiac_urodzenia = models.IntegerField(max_length=2, choices=Dates.choices, default=Dates.JANUARY)
+    miesiac_urodzenia = models.IntegerField(max_length=2, choices=Dates.choices, default=timezone.now().month)
     data_dodania = models.DateTimeField(auto_now_add=True)
     druzyna = models.ForeignKey(
         'Druzyna',
@@ -60,6 +60,7 @@ class Osoba(models.Model):
 
     def __str__(self):
         return self.imie + ' ' + self.nazwisko
+
 
 class Druzyna(models.Model):
     nazwa = models.TextField(max_length=64, blank=False)
