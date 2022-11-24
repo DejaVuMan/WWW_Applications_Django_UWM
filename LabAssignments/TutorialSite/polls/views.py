@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
@@ -7,6 +5,8 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .models import Osoba, Druzyna
 from .serializers import OsobaModelSerializer, DruzynaModelSerializer
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
 from django.http import HttpResponse
 
 
@@ -14,6 +14,19 @@ from django.http import HttpResponse
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
+@api_view(['GET'])
+def person_view(request, pk):
+    if not request.user.has_perm('polls.view_osoba'):
+        raise PermissionDenied()
+    try:
+        osoba = Osoba.objects.get(pk=pk)
+        if not osoba.can_view_other_persons and osoba.owner != request.user:
+            return HttpResponse(f"This user is named {osoba.imie}")
+        else:
+            serializer = OsobaModelSerializer(osoba)
+            return Response(serializer.data)
+    except Osoba.DoesNotExist:
+        return HttpResponse(f"The database does not contain a user with the ID {pk}.")
 
 @api_view(['GET'])
 def person_list(request):
