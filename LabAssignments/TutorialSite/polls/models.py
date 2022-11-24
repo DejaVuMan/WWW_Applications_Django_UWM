@@ -1,6 +1,10 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 
 ## Creating DB updates:
@@ -51,6 +55,7 @@ class Osoba(models.Model):
     nazwisko = models.CharField(max_length=64, blank=False)
     miesiac_urodzenia = models.IntegerField(max_length=2, choices=Dates.choices, default=timezone.now().month)
     data_dodania = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey('auth.User', related_name='wlasciciel', on_delete=models.CASCADE)
     druzyna = models.ForeignKey(
         'Druzyna',
         on_delete=models.CASCADE,
@@ -60,6 +65,11 @@ class Osoba(models.Model):
 
     def __str__(self):
         return self.imie + ' ' + self.nazwisko
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)
 
 
 class Druzyna(models.Model):

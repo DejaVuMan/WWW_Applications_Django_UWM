@@ -31,6 +31,7 @@ class OsobaModelSerializer(serializers.Serializer):
     miesiac_urodzenia = serializers.ChoiceField(choices=Osoba.Dates.choices, default=Osoba.Dates.JANUARY)
     druzyna = serializers.PrimaryKeyRelatedField(queryset=Druzyna.objects.all(), allow_null=True)
     data_dodania = serializers.DateTimeField()
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     def create(self, validated_data):
         return Osoba.objects.create(**validated_data)
