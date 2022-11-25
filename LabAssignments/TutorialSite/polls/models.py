@@ -56,6 +56,7 @@ class Osoba(models.Model):
     miesiac_urodzenia = models.IntegerField(max_length=2, choices=Dates.choices, default=timezone.now().month)
     data_dodania = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey('auth.User', related_name='wlasciciel', on_delete=models.CASCADE)
+    can_view_other_persons = models.BooleanField(default=False)
     druzyna = models.ForeignKey(
         'Druzyna',
         on_delete=models.CASCADE,
